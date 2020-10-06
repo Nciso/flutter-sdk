@@ -38,3 +38,7 @@ class PointsEarnedEvent extends Event {
 class WebviewLoadedEvent extends Event {
   WebviewLoadedEvent() : super(type: 'webview_loaded');
 }
+
+class NotificationAvailable extends Event {
+  NotificationAvailable() : super(type: 'notification');
+}
