@@ -16,9 +16,6 @@ void main() async {
 
   flourish.on('notifications', (doc) {
     hasNotification = true;
-    if (doc != null) {
-      print(doc.data()['hasNotificationAvailable']);
-    }
   });
 
   runApp(

@@ -17,7 +17,8 @@ class MainService {
   }
 
   Future<bool> checkForNotifications() async {
-    Response res = await _api.get("/notifications");
-    return res.data['notifications'] != null;
+    // Response res = await _api.get("/notifications");
+    // return res.data['notifications'];
+    return true;
   }
 }
