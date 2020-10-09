@@ -17,6 +17,7 @@ class Flourish {
   String sessionId;
   WebviewContainer _webviewContainer;
   Timer _notificationsPoll;
+  String _token;
 
   Map<String, StreamSubscription> _callbacks = {
     'points_earned': null,
@@ -41,11 +42,11 @@ class Flourish {
     @required String userId,
     @required String sessionId,
   }) async {
-    String jwt = await _service.authenticate(
+    _token = await _service.authenticate(
       1,
       "95380d599062bce7879ea32e89dbc1d3",
     );
-    print(jwt);
+    print(_token);
     // TODO: Call Flourish backend to authenticate
     // We should inform the apiKey, userId and sessionId (if we decide to use it)
     // Nice to have: We could encrypt or generate a signature using the secret value
@@ -56,7 +57,7 @@ class Flourish {
     // and finally we should start the polling process checking for notifications
     // e.g. GET /api/v1/notifications
     // and if there are notification we notify via de notify method
-    return jwt;
+    return _token;
   }
 
   void checkActivityAvailable() async {
@@ -140,12 +141,11 @@ class Flourish {
 
   void _openHome() {
     this._webviewContainer = new WebviewContainer(
-        environment: this.environment,
-        partnerId: this.partnerId,
-        secret: this.secret,
-        userId: this.userId,
-        sessionId: this.sessionId,
-        eventManager: this.eventManager);
+      environment: this.environment,
+      apiToken: _token,
+      userId: userId,
+      eventManager: this.eventManager,
+    );
   }
 
   static Future<String> get platformVersion async {
