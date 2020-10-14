@@ -42,3 +42,9 @@ class WebviewLoadedEvent extends Event {
 class NotificationAvailable extends Event {
   NotificationAvailable() : super(type: 'notification');
 }
+
+class ErrorEvent extends Event {
+  final String code;
+  final String message;
+  ErrorEvent(this.code, this.message) : super(type: 'error');
+}

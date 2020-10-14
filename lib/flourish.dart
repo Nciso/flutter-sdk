@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:dio/dio.dart';
 import 'package:flourish_flutter_sdk/app/service/main_service.dart';
 import 'package:flourish_flutter_sdk/environment_enum.dart';
 import 'package:flourish_flutter_sdk/event.dart';
@@ -61,7 +62,16 @@ class Flourish {
   }
 
   void checkActivityAvailable() async {
-    final res = await _service.checkForNotifications();
+    bool res = false;
+    try {
+      res = await _service.checkForNotifications();
+    } on DioError catch (e) {
+      print(e.message);
+      eventManager.notify(
+        ErrorEvent('FAILED_TO_RETRIEVE_NOTIFICATION', e.message),
+      );
+    }
+
     if (res) {
       eventManager.notify(NotificationAvailable());
     }

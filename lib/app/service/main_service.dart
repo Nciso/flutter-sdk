@@ -17,8 +17,11 @@ class MainService {
   }
 
   Future<bool> checkForNotifications() async {
-    // Response res = await _api.get("/notifications");
-    // return res.data['notifications'];
-    return true;
+    try {
+      Response res = await _api.get("/notifications");
+      return res.data['notifications'];
+    } on DioError catch (e) {
+      throw e;
+    }
   }
 }
