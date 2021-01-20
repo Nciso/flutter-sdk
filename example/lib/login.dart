@@ -1,3 +1,4 @@
+import 'package:flourish_flutter_sdk/environment_enum.dart';
 import 'package:flourish_flutter_sdk/flourish.dart';
 import 'package:flourish_flutter_sdk_example/home.dart';
 import 'package:flourish_flutter_sdk_example/utilities/constants.dart';
@@ -12,7 +13,15 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool _rememberMe = false;
+  Environment _radioValue1 = Environment.staging;
   final myController = TextEditingController();
+
+  void _handleRadioValueChange1(value) {
+    setState(() {
+      _radioValue1 = value;
+    });
+    print(value);
+  }
 
   Widget _buildEmailTF() {
     return Column(
@@ -138,6 +147,10 @@ class _LoginState extends State<Login> {
           Provider.of<Flourish>(
             context,
             listen: false,
+          ).setEnvironment(_radioValue1);
+          Provider.of<Flourish>(
+            context,
+            listen: false,
           ).authenticate(customerCode: myController.text).then((value) {
             Navigator.push(
               context,
@@ -164,6 +177,54 @@ class _LoginState extends State<Login> {
             fontFamily: 'OpenSans',
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildEnvironment() {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: [
+              Radio(
+                value: Environment.staging,
+                groupValue: _radioValue1,
+                onChanged: _handleRadioValueChange1,
+                activeColor: Colors.white,
+              ),
+              Text(
+                'Staging',
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Radio(
+                value: Environment.preproduction,
+                groupValue: _radioValue1,
+                onChanged: _handleRadioValueChange1,
+                activeColor: Colors.white,
+              ),
+              Text(
+                'Preproduction',
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Radio(
+                value: Environment.production,
+                groupValue: _radioValue1,
+                onChanged: _handleRadioValueChange1,
+                activeColor: Colors.white,
+              ),
+              Text(
+                'Production',
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -314,9 +375,10 @@ class _LoginState extends State<Login> {
                         height: 30.0,
                       ),
                       _buildPasswordTF(),
-                      _buildForgotPasswordBtn(),
-                      _buildRememberMeCheckbox(),
+                      // _buildForgotPasswordBtn(),
+                      // _buildRememberMeCheckbox(),
                       _buildLoginBtn(),
+                      _buildEnvironment()
                       // _buildSignInWithText(),
                       // _buildSocialBtnRow(),
                       // _buildSignupBtn(),

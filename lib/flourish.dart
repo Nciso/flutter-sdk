@@ -43,8 +43,11 @@ class Flourish {
   }
 
   Future<String> authenticate({@required String customerCode}) async {
-    _token =
-        await _service.authenticate(this.partnerId, this.secret, customerCode);
+    _token = await _service.authenticate(
+      this.partnerId,
+      this.secret,
+      customerCode,
+    );
 
     await signIn();
     checkActivityAvailable();
@@ -95,6 +98,11 @@ class Flourish {
 
   void stopPolling() {
     _notificationsPoll.cancel();
+  }
+
+  void setEnvironment(Environment env) {
+    environment = env;
+    _service = MainService(environment);
   }
 
   void on(String eventName, Function callback) {
@@ -180,6 +188,7 @@ class Flourish {
   }
 
   void _openHome() {
+    print(environment);
     this._webviewContainer = new WebviewContainer(
       environment: this.environment,
       apiToken: this._token,
