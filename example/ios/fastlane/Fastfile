@@ -38,4 +38,11 @@ platform :ios do
     build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     upload_to_testflight
   end
+
+  desc 'Fetch certificates and provisioning profiles'
+    lane :certificates do
+    match(type: 'development')
+    match(type: "appstore")
+    # match(type: "adhoc")
+    end
 end
